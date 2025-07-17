@@ -1,62 +1,120 @@
-📊 ETL Pipeline for Financial Data  #100DaysOfDataScience
+# 🚀 Day 12 – ETL Pipeline for Stock Market Data (TSLA)
 
-This project focuses on building a complete ETL (Extract, Transform, Load) pipeline for processing financial stock market data. It automates the process of fetching raw stock data, generating technical indicators, and preparing the dataset for machine learning models and dashboards.
+This project is part of my **#100DaysOfFinanceDataScience** challenge where I build one project every day to sharpen my data science and finance domain skills.
 
-🚀 Project Overview
-Objective:
-To design and implement a modular ETL pipeline that transforms raw historical stock price data into a clean, feature-rich dataset suitable for ML modeling and real-time dashboarding.
+For Day 12, I focused on building an **ETL (Extract, Transform, Load) pipeline** using Python to process stock market data (Tesla Inc. – TSLA) and perform **stock price movement classification** using various machine learning models including **XGBoost**.
 
-Pipeline Stages:
+---
 
-Extract: Load stock data from CSV (or API in future versions)
+## 📌 Problem Statement
 
-Transform: Add technical indicators, create target variables, clean and align data
+Build an ETL pipeline to:
+- Load and clean raw TSLA stock data.
+- Engineer technical indicators (features) from historical prices.
+- Create a target label indicating price movement (`UP` or `DOWN`).
+- Train classification models (Logistic Regression, Random Forest, XGBoost).
+- Evaluate performance and tune hyperparameters (handling class imbalance, SMOTE, etc).
 
-Load: Save the transformed dataset to CSV or DB for downstream tasks
+---
 
+## 📊 Data Source
 
+- **Dataset**: TSLA_raw.csv
+- **Frequency**: Daily (Business Days)
+- **Features Included**: Open, High, Low, Close, Volume
+- **Generated Features**: Moving Averages, RSI, MACD, etc.
 
-🧠 Use Case
-Building this pipeline helps in preparing consistent and repeatable data for:
+---
 
-Stock price movement prediction
+## 🧪 Project Pipeline
 
-Trading strategy simulation
+### 1. 📥 Extraction
+- Loaded raw TSLA CSV data using `pandas`.
+- Converted all price/volume columns to numeric.
+- Generated `Date` index from a starting date assuming business days.
 
-Financial dashboarding
+### 2. 🔁 Transformation
+- Computed technical indicators (SMA, RSI, MACD).
+- Defined binary target: `1` for price up (next day), `0` for price down or unchanged.
+- Removed `NaN` values from rolling computations.
 
-Model training pipelines
+### 3. 📤 Load & Modeling
+- Split into train-test sets (70-30 split).
+- Tried baseline Logistic Regression & Random Forest.
+- Applied **SMOTE** for class balancing.
+- Tuned **XGBoost Classifier** using `scale_pos_weight`.
 
+---
 
+## ⚙️ Tech Stack & Libraries
 
-🛠️ Tech Stack
-Tool	Usage
-Python	Core programming
-Pandas	Data wrangling and transformation
-TA	Technical analysis indicators
-Matplotlib	Data visualization
-XGBoost	Optional: downstream classification model
-scikit-learn	Preprocessing and evaluation
+- `pandas`, `numpy`, `scikit-learn`
+- `xgboost`, `matplotlib`, `seaborn`
+- `imblearn` (for SMOTE)
 
-🧱 Features Engineered
-📉 RSI (Relative Strength Index)
+---
 
-📈 MACD (Moving Average Convergence Divergence)
+## 📈 Model Performance (Final XGBoost Model)
 
-📊 EMA (Exponential Moving Average)
+| Metric        | Score  |
+|---------------|--------|
+| **Accuracy**  | 0.49   |
+| **Precision** | 0.54 (class 1) |
+| **Recall**    | 0.83 (class 1) |
+| **Confusion Matrix** |  
+|               | Pred 0 | Pred 1 |
+|---------------|--------|--------|
+| **Actual 0**  | 0      | 17     |
+| **Actual 1**  | 4      | 20     |
 
-📍 Momentum
+> ⚠️ Model tends to over-predict upward movement. We plan to balance recall vs. precision better in future improvements.
 
-📏 Bollinger Bands
+---
 
-⏳ Stochastic Oscillator
+## 📌 Key Takeaways
 
-🎯 Target Variable: 1 if next day's price is higher, else 0
+- ETL pipelines are essential for automating real-time data processing and modeling.
+- Imbalanced datasets can heavily affect model performance — **class weights and SMOTE help**.
+- XGBoost performed better recall-wise but still lacks generalization — needs further tuning and more data.
 
+---
 
+## 📅 What's Next?
 
-## 📬 Connect With Me
+- Deploy the pipeline as a **Streamlit** dashboard.
+- Add real-time stock feed via API.
+- Tune models with time series cross-validation.
+- Add confidence intervals and backtesting with trading signals.
 
-- [LinkedIn](https://www.linkedin.com/in/rohit-yadav)
-- [GitHub](https://github.com/yourusername)
-- [Portfolio](https://yourportfolio.com)
+---
+
+## 🙋‍♂️ About Me
+
+I’m **Rohit Kumar Yadav**, a data science learner combining my love for finance and machine learning through a **100 Days, 100 Finance Projects** challenge.
+
+📌 Connect with me:  
+🔗 [LinkedIn – Rohit Kumar Yadav](https://www.linkedin.com/in/rohit-kumar-yadav-b97360194/)  
+💻 [GitHub – rohit2255](https://github.com/rohit2255)
+
+---
+
+## ⭐ Project Badge
+
+`#Day12 #FinanceDataScience #ETLPipeline #StockMarket #XGBoost #DataScience #100DaysChallenge #Python`
+
+---
+
+## 📁 How to Use
+
+```bash
+# Clone the repo
+git clone https://github.com/rohit2255/Finance-DS-100Days.git
+
+# Go to the project folder
+cd Day12_ETL_Pipeline_TSLA
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the pipeline
+python etl_pipeline.py
